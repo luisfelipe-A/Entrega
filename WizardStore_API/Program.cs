@@ -11,8 +11,6 @@ builder.Services.AddDbContext<WizardStoreContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddDbContext<WizarStoreContext>(opt =>
-    opt.UseInMemoryDatabase("ItemList"));
 
 var app = builder.Build();
 
