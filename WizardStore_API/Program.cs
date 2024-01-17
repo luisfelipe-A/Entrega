@@ -3,11 +3,12 @@ using WizarStore_API.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<WizardStoreContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WizardStoreContext") ?? throw new InvalidOperationException("Connection string 'WizardStoreContext' not found.")));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<WizardStoreContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WizardStoreContext") 
+    ?? throw new InvalidOperationException("Connection string 'WizardStoreContext' not found.")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
