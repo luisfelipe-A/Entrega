@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WizarStore_API.Models;
+using WizardStoreAPI.Models;
 
-namespace WizarStore_API.Models;
+namespace WizardStoreAPI.Data;
 
     public class WizardStoreContext : DbContext
     {
@@ -14,5 +14,8 @@ namespace WizarStore_API.Models;
         {
         }
 
-        public DbSet<Item> Item { get; set; } = default!;
-    }
+        public DbSet<MagicItem> MagicItems { get; set; } = default!;
+
+        public DbSet<User> Users { get; set;} = default!;
+        
+}

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using WizarStore_API.Models;
-using Microsoft.Extensions.DependencyInjection;
+using WizardStoreAPI.Data;
+using Microsoft.AspNetCore.Authentication;
+using WizardStoreAPI.Handlers;
+using WizardStoreAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<WizardStoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WizardStoreContext") 
     ?? throw new InvalidOperationException("Connection string 'WizardStoreContext' not found.")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddAuthentication("BasicAuthentication")
+.AddScheme<AuthenticationSchemeOptions,BasicAuthenticationHandler>("BasicAuthentication", null);
 
-var app = builder.Build();
+WebApplication app;
+
+app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -22,7 +29,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+DatabaseManagementService.MigrationInitialization(app);
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
